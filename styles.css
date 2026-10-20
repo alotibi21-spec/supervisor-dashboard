@@ -115,7 +115,7 @@ dialog h3{margin-top:0}
 .rep .rf{text-align:center;margin-top:14px;font-size:.85rem;color:#444;border-top:1px solid #ccc;padding-top:6px}
 @media (max-width:900px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:760px){
- .menu{display:inline-block}.search{display:none}.top{flex-wrap:wrap;gap:8px;padding:8px 10px}.ttl{flex:1}.top h1{font-size:1rem}
+ .menu{display:inline-block}.search{display:none}.top{flex-wrap:wrap;gap:8px;padding:8px 10px}.ttl{flex:1;min-width:0}.top h1{font-size:.95rem;white-space:normal}.top .sub{white-space:normal}
  .wkpick{order:5;width:100%}.wkpick select{max-width:none;flex:1}
  .side{position:fixed;top:0;right:-260px;height:100vh;z-index:40;transition:right .25s;box-shadow:-4px 0 20px #0003}.side.open{right:0}.navclose{display:block}
  main{padding:12px}.g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}.rep{padding:10px;overflow-x:auto}.rep table{font-size:.8rem}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi .v{font-size:1.4rem}
