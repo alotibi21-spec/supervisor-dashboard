@@ -1,6 +1,6 @@
-/*! لوحة عضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي (Abdullah Khalid Alotaibi). جميع الحقوق محفوظة — All Rights Reserved. انظر ملف LICENSE. */
+/*! لوحة التحكم لعضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي (Abdullah Khalid Alotaibi). جميع الحقوق محفوظة — All Rights Reserved. انظر ملف LICENSE. */
 'use strict';
-const APPV='1.0.0';
+const APPV='1.0.1';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
@@ -321,7 +321,7 @@ function exportXlsx(k){if(!window.XLSX){toast('مكتبة Excel لم تُحمَ�
  if(k==='all'){add('أعمال المشرف',[['الفئة','المهمة','الحالة','تاريخ آخر إنجاز','ملاحظات'],...S.tasks.map(t=>[CAT[t.cat],t.title,normSt(t.status),t.lastDate,t.notes])]);
   add('التقارير الأسبوعية',[['الأسبوع',...RSEC.map(x=>x[1]),'التاريخ'],...Object.entries(S.reports).filter(([,r])=>RSEC.some(([k])=>r[k])).map(([n,r])=>[+n,...RSEC.map(([k])=>r[k]||''),r.date||''])]);
   add('توزيع الأسابيع',[['الأسبوع','من','إلى','ملاحظات'],...S.weeks.map(w=>{const ds=weekDays(w);return[w.n,ds[0].h?hs(ds[0].h):'',ds[4].h?hs(ds[4].h):'',w.note]})])}
- XLSX.writeFile(wb,`لوحة-عضو-الفريق-${k}-${new Date().toISOString().slice(0,10)}.xlsx`);toast('✓ تم تصدير ملف Excel')}
+ XLSX.writeFile(wb,`لوحة-التحكم-لعضو-الفريق-${k}-${new Date().toISOString().slice(0,10)}.xlsx`);toast('✓ تم تصدير ملف Excel')}
 /* ---------- Excel import (parses the workbook structure client-side, offline) ---------- */
 const nrm=s=>String(s??'').replace(/ـ/g,'').replace(/[إأآ]/g,'ا').replace(/\s+/g,' ').trim();
 const dig=s=>String(s??'').replace(/\D/g,'');
@@ -387,7 +387,7 @@ function render(){const h=(location.hash||'#home').slice(1),[v,arg]=h.split('/')
  $('#sampleBar').hidden=!S.settings.sample;
  const sel=$('#weekSel');sel.innerHTML=S.weeks.map(w=>`<option value="${w.n}"${w.n==WK?' selected':''}>${esc(weekLabel(w))}${w.n===currentWeek()?' ← الحالي':''}</option>`).join('');
  const m=$('#main');try{m.innerHTML=V[name](arg)}catch(e){console.error(e);m.innerHTML=`<div class="card">حدث خطأ في عرض القسم: ${esc(e.message)}</div>`}
- document.title=(name==='home'?'':($('h2',m)?.textContent.replace(/^\S+\s/,'')+' — '))+'لوحة عضو الفريق التنفيذي';
+ document.title=(name==='home'?'':($('h2',m)?.textContent.replace(/^\S+\s/,'')+' — '))+'لوحة التحكم لعضو الفريق التنفيذي';
  if(name==='data')refreshSnaps()}
 window.addEventListener('hashchange',()=>{$('#nav').classList.remove('open');render();window.scrollTo(0,0)});
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
@@ -402,7 +402,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]
   gotoWeek:()=>{WK=+b.dataset.n},
   editWeek:()=>{const w=getW(+b.dataset.n);formDlg('تعديل الأسبوع '+w.n,[['m','شهر البداية (هجري)','number'],['d','يوم البداية (الأحد)','number'],['note','ملاحظات / إجازات','text']],w,o=>{Object.assign(w,{m:+o.m||w.m,d:+o.d||w.d,note:o.note});save();render()})},
   addWeek:()=>{const l=S.weeks[S.weeks.length-1];const st=l?hToG(S.year,l.m,l.d):null;const nx=st?toH(new Date(st.getTime()+7*864e5)):{m:1,d:1};S.weeks.push({n:(l?l.n:0)+1,m:nx.m,d:nx.d,note:''});save();render()},
-  xlsx:()=>exportXlsx(b.dataset.k),backup:()=>{S.settings.lastExport=Date.now();save();download(`نسخة-احتياطية-لوحة-عضو-الفريق-${new Date().toISOString().slice(0,10)}.json`,new Blob([JSON.stringify({app:'supervisor-dashboard',v:APPV,at:new Date().toISOString(),data:S})],{type:'application/json'}));toast('✓ تم تنزيل النسخة الاحتياطية')},
+  xlsx:()=>exportXlsx(b.dataset.k),backup:()=>{S.settings.lastExport=Date.now();save();download(`نسخة-احتياطية-لوحة-التحكم-لعضو-الفريق-${new Date().toISOString().slice(0,10)}.json`,new Blob([JSON.stringify({app:'supervisor-dashboard',v:APPV,at:new Date().toISOString(),data:S})],{type:'application/json'}));toast('✓ تم تنزيل النسخة الاحتياطية')},
   snapNow:async()=>{await autoSnap(true);refreshSnaps();toast('✓ تم أخذ نسخة')},
   restoreSnap:async()=>{if(!await confirmDlg('استعادة هذه النسخة؟ ستُستبدل البيانات الحالية.'))return;const s=(await DB.snaps()).find(x=>x.t==b.dataset.t);if(s){await autoSnap(true);S=Object.assign(blank(),s.data);save();render();toast('✓ تمت الاستعادة')}},
   persist:async()=>{if(navigator.storage&&navigator.storage.persist){const ok=await navigator.storage.persist();toast(ok?'✅ تم تفعيل التخزين الدائم':'لم يوافق المتصفح حالياً — ثبّت التطبيق على الشاشة الرئيسية ثم أعد المحاولة');refreshSnaps()}},
