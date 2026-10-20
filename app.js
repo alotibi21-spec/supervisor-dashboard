@@ -1,6 +1,6 @@
 /*! لوحة التحكم لعضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي (Abdullah Khalid Alotaibi). جميع الحقوق محفوظة — All Rights Reserved. انظر ملف LICENSE. */
 'use strict';
-const APPV='1.0.1';
+const APPV='1.1.0';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
@@ -299,10 +299,11 @@ V.help=()=>head('📖 تعليمات الاستخدام','دليل سريع لك
 /* ---------- data / settings ---------- */
 let persistSt='';
 V.data=()=>{const st=S.settings;return head('💾 الاستيراد والنسخ الاحتياطي والإعدادات','🔒 بياناتك على هذا الجهاز فقط — لا يوجد أي رفع سحابي')+
- `<div class="grid g2"><div class="card"><h3>📥 استيراد من ملف الإكسل</h3><p class="small">اختر ملف «لوحة التحكم للمدارس المسندة» (xlsx). يُحلَّل الملف داخل المتصفح دون اتصال ولا يغادر جهازك. سيستبدل الاستيراد البيانات الحالية (يُحفظ تلقائياً نسخة احتياطية قبل الاستيراد).</p><input type="file" id="xlsIn" accept=".xlsx,.xlsm,.xls" class="inp"><div id="impRes" class="small" style="margin-top:8px"></div></div>
+ `<div class="grid g2"><div class="card"><h3>📥 استيراد من ملف الإكسل</h3><p class="small">اختر ملف «لوحة التحكم للمدارس المسندة» (xlsx). يُحلَّل الملف داخل المتصفح دون اتصال ولا يغادر جهازك. سيستبدل الاستيراد البيانات الحالية (يُحفظ تلقائياً نسخة احتياطية قبل الاستيراد).</p><input type="file" id="xlsIn" accept=".xlsx,.xls,.xlsm,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.ms-excel.sheet.macroEnabled.12" class="inp"><div id="impRes" class="small" style="margin-top:8px"></div></div>
  <div class="card"><h3>📤 التصدير</h3><div class="row"><button class="btn" data-act="xlsx" data-k="all">📊 تصدير Excel (كل الأقسام)</button><button class="btn gold" data-act="backup">💾 نسخة احتياطية JSON</button></div><p class="small muted">آخر نسخة احتياطية مصدّرة: ${st.lastExport?new Date(st.lastExport).toLocaleString('ar-SA-u-ca-islamic-umalqura-nu-latn'):'لم تُصدَّر بعد'}</p>
- <div class="fld"><label>استعادة من ملف JSON</label><input type="file" id="jsonIn" accept=".json,application/json" class="inp"></div></div>
+ <div class="fld"><label>استعادة من ملف JSON</label><input type="file" id="jsonIn" accept=".json,application/json,text/plain" class="inp"></div></div>
  <div class="card"><h3>🕒 النسخ الاحتياطي التلقائي (على الجهاز)</h3><label class="row"><input type="checkbox" data-set="autoBackup"${st.autoBackup?' checked':''}> نسخة تلقائية كل ٦ ساعات عند التعديل (آخر ١٠ نسخ)</label><div id="snapList" class="small" style="margin-top:8px">…</div><button class="btn sm" data-act="snapNow">📸 أخذ نسخة الآن</button></div>
+ <div class="card"><h3>📲 تثبيت التطبيق</h3><p class="small">${isStandalone()?'✅ التطبيق مثبّت ويعمل كبرنامج مستقل.':isIOS()?'على iPhone/iPad: افتح الرابط في Safari ثم اضغط زر المشاركة ⬆️ واختر «إضافة إلى الشاشة الرئيسية».':'في Chrome: اضغط زر التثبيت أدناه أو من القائمة ⋮ اختر «تثبيت التطبيق / إضافة إلى الشاشة الرئيسية».'}</p>${deferredPrompt?'<button class="btn gold sm" data-act="install">⬇️ تثبيت الآن</button>':''}</div>
  <div class="card"><h3>🛡️ التخزين الدائم</h3><p class="small">يطلب من المتصفح عدم حذف بيانات اللوحة تلقائياً عند امتلاء المساحة.</p><div id="persist" class="small">${persistSt||'…'}</div><button class="btn sm" data-act="persist">طلب التخزين الدائم</button></div>
  <div class="card"><h3>⚙️ الإعدادات</h3><div class="grid g2"><div class="fld"><label>اسم عضو الفريق التنفيذي (يظهر في الترويسة والتقارير)</label><input class="inp" data-set="member" value="${esc(st.member)}"></div><div class="fld"><label>الجهة / القطاع</label><input class="inp" data-set="sector" value="${esc(st.sector)}" placeholder="الفريق التنفيذي بمحافظة … - قطاع …"></div>
  <div class="fld"><label>العام الهجري</label><input class="inp" type="number" data-set="year" value="${S.year}"></div><div class="fld"><label>حد تنبيه دخول المنصة (أقل من %)</label><input class="inp" type="number" data-set="loginMin" value="${st.loginMin}"></div><div class="fld"><label>حد تنبيه الغياب (أعلى من %)</label><input class="inp" type="number" step="0.5" data-set="absMax" value="${st.absMax}"></div></div></div>
@@ -402,7 +403,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]
   gotoWeek:()=>{WK=+b.dataset.n},
   editWeek:()=>{const w=getW(+b.dataset.n);formDlg('تعديل الأسبوع '+w.n,[['m','شهر البداية (هجري)','number'],['d','يوم البداية (الأحد)','number'],['note','ملاحظات / إجازات','text']],w,o=>{Object.assign(w,{m:+o.m||w.m,d:+o.d||w.d,note:o.note});save();render()})},
   addWeek:()=>{const l=S.weeks[S.weeks.length-1];const st=l?hToG(S.year,l.m,l.d):null;const nx=st?toH(new Date(st.getTime()+7*864e5)):{m:1,d:1};S.weeks.push({n:(l?l.n:0)+1,m:nx.m,d:nx.d,note:''});save();render()},
-  xlsx:()=>exportXlsx(b.dataset.k),backup:()=>{S.settings.lastExport=Date.now();save();download(`نسخة-احتياطية-لوحة-التحكم-لعضو-الفريق-${new Date().toISOString().slice(0,10)}.json`,new Blob([JSON.stringify({app:'supervisor-dashboard',v:APPV,at:new Date().toISOString(),data:S})],{type:'application/json'}));toast('✓ تم تنزيل النسخة الاحتياطية')},
+  xlsx:()=>exportXlsx(b.dataset.k),install:()=>doInstall(),backup:()=>{S.settings.lastExport=Date.now();save();download(`نسخة-احتياطية-لوحة-التحكم-لعضو-الفريق-${new Date().toISOString().slice(0,10)}.json`,new Blob([JSON.stringify({app:'supervisor-dashboard',v:APPV,at:new Date().toISOString(),data:S})],{type:'application/json'}));toast('✓ تم تنزيل النسخة الاحتياطية')},
   snapNow:async()=>{await autoSnap(true);refreshSnaps();toast('✓ تم أخذ نسخة')},
   restoreSnap:async()=>{if(!await confirmDlg('استعادة هذه النسخة؟ ستُستبدل البيانات الحالية.'))return;const s=(await DB.snaps()).find(x=>x.t==b.dataset.t);if(s){await autoSnap(true);S=Object.assign(blank(),s.data);save();render();toast('✓ تمت الاستعادة')}},
   persist:async()=>{if(navigator.storage&&navigator.storage.persist){const ok=await navigator.storage.persist();toast(ok?'✅ تم تفعيل التخزين الدائم':'لم يوافق المتصفح حالياً — ثبّت التطبيق على الشاشة الرئيسية ثم أعد المحاولة');refreshSnaps()}},
@@ -430,6 +431,12 @@ $('#main').addEventListener('click',()=>$('#nav').classList.remove('open'));$('#
 function applyTheme(){const t=S.settings.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;$('#themeBtn').textContent=t==='dark'?'☀️':'🌙'}
 $('#themeBtn').addEventListener('click',()=>{S.settings.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save()});
 function net(){$('#netInd').textContent=navigator.onLine?'':'⚡ دون اتصال'}addEventListener('online',net);addEventListener('offline',net);
+/* ---------- PWA install ---------- */
+let deferredPrompt=null;const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#installBtn').hidden=false;if((location.hash||'').startsWith('#data'))render()});
+addEventListener('appinstalled',()=>{deferredPrompt=null;$('#installBtn').hidden=true;toast('✅ تم تثبيت التطبيق')});
+async function doInstall(){if(!deferredPrompt){location.hash='#data';return}deferredPrompt.prompt();await deferredPrompt.userChoice.catch(()=>{});deferredPrompt=null;$('#installBtn').hidden=true;render()}
+$('#installBtn').addEventListener('click',doInstall);
 /* ---------- init ---------- */
 (async function(){$('#ver').textContent=APPV;try{await DB.open();const st=await DB.get('state');if(st){S=Object.assign(blank(),st);S.settings=Object.assign(blank().settings,st.settings)}}catch(e){toast('تعذّر فتح قاعدة البيانات المحلية: '+e.message)}
  const th=toH(new Date());$('#todayDate').textContent=`${AR(th.d)} ${HMONTHS[th.m]} ${AR(th.y)}هـ`;WK=currentWeek();applyTheme();net();render();

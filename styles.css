@@ -4,9 +4,9 @@
 @font-face{font-family:Tajawal;src:url(fonts/Tajawal-800.ttf) format('truetype');font-weight:800;font-display:swap}
 :root{--navy:#0f2747;--navy2:#1b3a63;--gold:#c9a227;--gold2:#e9d48a;--red:#b91c1c;--bg:#f3f4f6;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--info:#1d4ed8;--soft:#f9fafb}
 [data-theme=dark]{--bg:#0b1220;--card:#121b2d;--text:#e5e7eb;--muted:#9ca3af;--line:#243149;--soft:#0f1729;--navy2:#24497a}
-*{box-sizing:border-box}html,body{margin:0}
+*{box-sizing:border-box}html,body{margin:0}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}button{touch-action:manipulation}
 body{font-family:Tajawal,"Segoe UI","Noto Naskh Arabic",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
-.skip{position:absolute;right:-999px}.skip:focus{right:8px;top:8px;z-index:99;background:#fff;padding:6px}
+.skip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.skip:focus{width:auto;height:auto;clip:auto;right:8px;top:8px;z-index:99;background:#fff;padding:6px}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--navy);color:#fff;border-bottom:3px solid var(--gold)}
@@ -116,10 +116,11 @@ dialog h3{margin-top:0}
 @media (max-width:900px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:760px){
  .menu{display:inline-block}.search{display:none}.top{flex-wrap:wrap;gap:8px;padding:8px 10px}.ttl{flex:1;min-width:0}.top h1{font-size:.95rem;white-space:normal}.top .sub{white-space:normal}
- .wkpick{order:5;width:100%}.wkpick select{max-width:none;flex:1}
+ .wkpick{order:5;width:100%;min-width:0}.wkpick select{max-width:none;flex:1;min-width:0;width:100%}
  .side{position:fixed;top:0;right:-260px;height:100vh;z-index:40;transition:right .25s;box-shadow:-4px 0 20px #0003}.side.open{right:0}.navclose{display:block}
  main{padding:12px}.g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}.rep{padding:10px;overflow-x:auto}.rep table{font-size:.8rem}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi .v{font-size:1.4rem}
  .net{display:none}
+ input,select,textarea,.inp,.cell-in{font-size:16px!important}.btn,.tabs button,.navclose{min-height:42px}.btn.sm{min-height:38px;padding:6px 12px}.cell-in{height:40px;width:70px}.side a{padding:11px 12px}.iconbtn{width:40px;height:40px}input[type=checkbox]{width:32px;height:32px}.top{padding-top:max(8px,env(safe-area-inset-top))}
  .cal{grid-template-columns:minmax(0,1fr);min-width:0;gap:4px}.cal .h{display:none}.cal .wk{margin-top:10px;background:var(--navy);color:#fff}.cal .wk .muted{color:#cbd5e1}.cal .d{min-height:0;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}.cal .dn{display:inline}
 }
 @media print{
@@ -134,3 +135,6 @@ dialog h3{margin-top:0}
  .rep{border:0;padding:0}.chart svg{min-width:0}
  .pagebreak{break-before:page}
 }
+@media (max-width:760px){.top{overflow:hidden}.ttl{overflow:hidden}}
+@media (max-width:380px){.top{gap:6px;padding-left:8px;padding-right:8px}.save{font-size:0;padding:4px 6px}.save::before{content:'✓';font-size:14px}.save.saving::before{content:'…'}.top h1{font-size:.88rem}}
+.wkpick select{-webkit-appearance:none;appearance:none;background:#ffffff1f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23e9d48a' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat left 10px center;padding-left:28px;color:#fff;min-height:38px}
