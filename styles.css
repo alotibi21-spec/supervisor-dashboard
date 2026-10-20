@@ -150,3 +150,10 @@ dialog h3{margin-top:0}
 .achdoc .asig{display:flex;justify-content:space-between;margin-top:18px;font-weight:700}.achdoc .afoot{text-align:center;color:#b91c1c;font-weight:700;font-size:11px;border-top:1px solid #ccc;margin-top:14px;padding-top:6px}
 @media print{.achwrap{background:#fff;overflow:visible}.achdoc{width:auto;padding:0}}
 .achdoc .alg{display:flex;gap:14px;font-size:11px;margin:6px 0}.achdoc .alg i{display:inline-block;width:10px;height:10px;margin-left:4px;border-radius:2px}.achdoc .abr{display:flex;align-items:center;gap:8px;border-bottom:1px dashed #e5e7eb;padding:3px 0}.achdoc .an{width:210px;font-size:11.5px;font-weight:700}.achdoc .ab{flex:1}.achdoc .abl{display:flex;align-items:center;gap:6px;height:12px;margin:2px 0}.achdoc .abl i{display:block;height:9px;border-radius:3px}.achdoc .abl em{font-style:normal;font-size:10px;color:#333}
+.vwrap{display:flex;gap:4px;align-items:flex-start;width:100%}.vwrap>input,.vwrap>textarea{flex:1;min-width:0}
+.micbtn{flex:none;width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--soft);cursor:pointer;font-size:1.05rem}.micbtn.off{opacity:.4}.micbtn.rec{background:#fee2e2;border-color:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px #b91c1c33}}
+.checks{display:flex;flex-direction:column;gap:2px}.checks label{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-weight:400!important;color:var(--text)!important}.checks input{width:22px;height:22px}
+.newbox{border:1px dashed var(--gold);border-radius:12px;padding:10px;margin:6px 0;background:#fffbeb}[data-theme=dark] .newbox{background:#1f1a0b}.hintbox{font-weight:700;color:var(--warn);margin-bottom:6px}
+.newbox input,.newbox select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);width:100%}
+@media print{.micbtn{display:none}}
