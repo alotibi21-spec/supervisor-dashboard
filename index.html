@@ -1,0 +1,64 @@
+<!doctype html>
+<!--
+  لوحة عضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي (Abdullah Khalid Alotaibi). جميع الحقوق محفوظة — All Rights Reserved.
+  يُمنع النسخ أو التعديل أو إعادة النشر أو الاستخدام التجاري للكود أو التصميم دون إذن كتابي مسبق. انظر ملف LICENSE.
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة عضو الفريق التنفيذي</title>
+<meta name="description" content="لوحة التحكم للمدارس المسندة لعضو الفريق التنفيذي: بيانات المدارس، دخول المنصة، الغياب، خطة الزيارات، أعمال المشرف والتقارير الأسبوعية — تعمل دون اتصال والبيانات على الجهاز فقط">
+<meta name="theme-color" content="#0f2747">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">تخطَّ إلى المحتوى</a>
+<div id="updateBar" class="banner gold" hidden>يتوفر إصدار جديد من التطبيق. <button id="updBtn" class="btn sm">تحديث الآن</button></div>
+<div id="sampleBar" class="banner warn" hidden>⚠️ تعرض اللوحة <b>بيانات تجريبية وهمية للتوضيح فقط</b> وليست بيانات حقيقية. <button class="btn sm" data-act="clearSample">حذف البيانات التجريبية</button></div>
+<header class="top">
+  <button class="iconbtn menu" id="menuBtn" aria-label="القائمة" aria-expanded="false">☰</button>
+  <div class="ttl"><h1>لوحة عضو الفريق التنفيذي</h1><div class="sub">لوحة التحكم للمدارس المسندة · <span id="todayDate"></span></div></div>
+  <div class="search"><input id="q" type="search" placeholder="بحث في المدارس والزيارات والمهام والتقارير… ( / )" aria-label="بحث"></div>
+  <label class="wkpick" title="الأسبوع الدراسي">📅 <select id="weekSel" aria-label="الأسبوع الدراسي"></select></label>
+  <span id="saveInd" class="save" title="حالة الحفظ">✓ محفوظ</span>
+  <span id="netInd" class="net"></span>
+  <button class="iconbtn" id="themeBtn" aria-label="تبديل الوضع الليلي/النهاري">🌙</button>
+</header>
+<div class="layout">
+<nav id="nav" class="side" aria-label="الأقسام">
+  <button class="navclose" id="navClose" aria-label="إغلاق القائمة">✕ إغلاق القائمة</button>
+  <a href="#home" data-v="home">🏠 الرئيسية</a>
+  <a href="#control" data-v="control">📊 لوحة التحكم</a>
+  <a href="#analysis" data-v="analysis">📈 التحليل والإحصائيات</a>
+  <div class="sep">المدارس</div>
+  <a href="#schools" data-v="schools">🏫 بيانات المدارس</a>
+  <a href="#compare" data-v="compare">📉 الاتجاهات والمقارنة</a>
+  <div class="sep">المتابعة اليومية</div>
+  <a href="#logins" data-v="logins">📱 متابعة دخول المنصة</a>
+  <a href="#absence" data-v="absence">🧑‍🎓 متابعة نسب الغياب</a>
+  <a href="#tasks" data-v="tasks">📋 أعمال المشرف</a>
+  <div class="sep">الزيارات والتقارير</div>
+  <a href="#visits" data-v="visits">🗓️ خطة الزيارات الأسبوعية</a>
+  <a href="#monthly" data-v="monthly">📆 الملخص الشهري للزيارات</a>
+  <a href="#report" data-v="report">📝 التقرير الأسبوعي</a>
+  <a href="#weeks" data-v="weeks">📅 توزيع الأسابيع</a>
+  <div class="sep">البيانات</div>
+  <a href="#data" data-v="data">💾 الاستيراد والنسخ الاحتياطي</a>
+  <a href="#help" data-v="help">📖 التعليمات</a>
+  <div class="ver muted small">الإصدار <span id="ver"></span><br>🔒 البيانات محفوظة على هذا الجهاز فقط</div>
+</nav>
+<main id="main" tabindex="-1"></main>
+</div>
+<div class="copyline">© ١٤٤٨هـ عبدالله خالد العتيبي – جميع الحقوق محفوظة، يُمنع النسخ أو إعادة النشر دون إذن</div>
+<div class="print-credit">فكرة وتصميم: عضو الفريق التنفيذي بمحافظة الدوادمي - قطاع السر - عبدالله خالد العتيبي · © ١٤٤٨هـ جميع الحقوق محفوظة</div>
+<dialog id="dlg"><form method="dialog" id="dlgForm"></form></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="vendor/xlsx.full.min.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
