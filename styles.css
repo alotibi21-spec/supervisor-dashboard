@@ -227,3 +227,9 @@ dialog form>h3:first-child{margin:-16px -16px 14px;padding:14px 16px;background:
 .micbtn.rowmic{width:34px;height:34px;min-height:0;padding:0;vertical-align:middle;font-size:.95rem}
 @media (max-width:760px){.eaform{grid-template-columns:minmax(0,1fr)}.eaform .btn{width:100%;justify-content:center}.micbtn.rowmic{width:40px;height:40px}}
 @media print{.rowmic,.vbar,.eadd{display:none!important}}
+/* v1.3.0 */
+details.xf{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--soft)}details.xf summary{cursor:pointer;font-weight:700;font-size:.9rem}details.xf .grid{margin-top:8px}
+details.xf .fld{display:flex;flex-direction:column;gap:4px;min-width:0}details.xf input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.tabs button.crit,.d.crit{box-shadow:inset 0 -3px 0 var(--red)}.critbadge{display:inline-block;font-size:.72rem;background:#fee2e2;color:#991b1b;border-radius:8px;padding:0 6px;margin-inline-start:4px}
+.card.crit{border-inline-start:4px solid var(--red)}
+@media print{details.xf{display:none}}
