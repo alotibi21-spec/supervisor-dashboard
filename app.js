@@ -1,6 +1,6 @@
 /*! لوحة التحكم لعضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي (Abdullah Khalid Alotaibi). جميع الحقوق محفوظة — All Rights Reserved. انظر ملف LICENSE. */
 'use strict';
-const APPV='1.2.1';
+const APPV='1.2.2';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
@@ -86,9 +86,9 @@ function barChart(labels,series,{max=null,isPct=true,h=260,title=''}={}){
  const gw=cw/Math.max(1,labels.length),bw=Math.min(28,(gw-8)/series.length);let g='';
  for(let i=0;i<=4;i++){const y=pt+ch-ch*i/4,v=mx*i/4;g+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="#9ca3af" stroke-opacity=".3"/><text x="${pl-4}" y="${y+4}" font-size="10" text-anchor="end">${isPct?Math.round(v*100)+'%':Math.round(v*10)/10}</text>`}
  labels.forEach((l,i)=>{const x0=W-pr-gw*(i+1)+(gw-bw*series.length)/2;series.forEach((s,j)=>{const v=s.values[i];if(v==null)return;const bh=Math.max(0,ch*Math.min(v,mx)/mx),x=x0+j*bw,y=pt+ch-bh;
-  g+=`<rect x="${x}" y="${y}" width="${bw-2}" height="${bh}" rx="3" fill="${s.color||PAL[j%PAL.length]}"><title>${esc(s.name)} — ${esc(l)}: ${isPct?fp(v):v}</title></rect>`;if(series.length<=3&&labels.length<=12)g+=`<text x="${x+bw/2-1}" y="${y-3}" font-size="9" text-anchor="middle">${isPct?Math.round(v*1000)/10+'%':v}</text>`});
+  g+=`<rect x="${x}" y="${y}" width="${bw-2}" height="${bh}" rx="3" fill="url(#bg${(s.color||PAL[j%PAL.length]).slice(1)})"><title>${esc(s.name)} — ${esc(l)}: ${isPct?fp(v):v}</title></rect>`;if(series.length<=3&&labels.length<=12)g+=`<text x="${x+bw/2-1}" y="${y-3}" font-size="9" text-anchor="middle">${isPct?Math.round(v*1000)/10+'%':v}</text>`});
   const lx=W-pr-gw*(i+0.5);g+=`<text x="${lx}" y="${pt+ch+14}" font-size="10" text-anchor="end" transform="rotate(-35 ${lx} ${pt+ch+14})">${esc(String(l).slice(0,26))}</text>`});
- return`<div class="chart" role="img" aria-label="${esc(title)}"><svg viewBox="0 0 ${W} ${H}">${g}</svg></div>${series.length>1||series[0].name?legend(series):''}`}
+ return`<div class="chart" role="img" aria-label="${esc(title)}"><svg viewBox="0 0 ${W} ${H}"><defs>${[...new Set(series.map((s,j)=>s.color||PAL[j%PAL.length]))].map(c=>`<linearGradient id="bg${c.slice(1)}" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c}"/><stop offset="1" stop-color="${c}" stop-opacity=".62"/></linearGradient>`).join('')}</defs>${g}</svg></div>${series.length>1||series[0].name?legend(series):''}`}
 function lineChart(labels,series,{isPct=true,h=260,title='',max=null}={}){
  const W=Math.max(560,labels.length*46+80),H=h,pl=44,pr=16,pt=16,pb=56,cw=W-pl-pr,ch=H-pt-pb;
  let mx=max??Math.max(0.0001,...series.flatMap(s=>s.values.map(v=>v||0)));if(isPct&&max==null)mx=Math.min(1,Math.max(mx*1.15,0.05));if(!isPct&&max==null)mx=Math.ceil(mx*1.15)||1;
@@ -446,6 +446,8 @@ function parseSchoolList(wb){const out=[];for(const n of wb.SheetNames){const ro
 /* ---------- voice input (Web Speech API) ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let REC=null,recBtn=null;
 function stopVoice(){if(REC){try{REC.stop()}catch(e){}}}
+const KIC={schools:'🏫',control:'👩‍🏫',tasks:'✅',logins:'📱',absence:'🧑‍🎓',visits:'🗓️',analysis:'📈',monthly:'📆',achieve:'📤',report:'📝'};
+function kpiIcons(root){$$('.kpi',root).forEach(k=>{if(k.querySelector('.ic'))return;const h=(k.getAttribute('href')||'').replace('#','').split('/')[0];const i=document.createElement('span');i.className='ic';i.setAttribute('aria-hidden','true');i.textContent=KIC[h]||'📊';k.prepend(i)})}
 function decorateVoice(root){$$('input:not([type]),input[type=text],input[type=search]:not(#q),textarea',root).forEach(el=>{if(el.dataset.v||el.closest('.vwrap')||el.dir==='ltr'||el.readOnly||/hijri|lastDate|achFrom|achTo|date/i.test(el.id+el.name+(el.dataset.f||'')+(el.dataset.rp||'')))return;el.dataset.v=1;
   const w=document.createElement('span');w.className='vwrap';el.parentNode.insertBefore(w,el);w.appendChild(el);const b=document.createElement('button');b.type='button';b.className='micbtn'+(SR?'':' off');b.textContent='🎤';
   b.title=SR?'إدخال صوتي (اضغط للتحدث، واضغط مجدداً للإيقاف)':'الإدخال الصوتي غير مدعوم في هذا المتصفح — استخدم زر الميكروفون في لوحة المفاتيح';b.setAttribute('aria-label',b.title);b.onclick=e=>{e.preventDefault();voice(el,b)};w.appendChild(b)})}
@@ -470,7 +472,7 @@ function render(){const h=(location.hash||'#home').slice(1),[v,arg]=h.split('/')
  $$('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.v===(name==='school'?'schools':name)));
  $('#sampleBar').hidden=!S.settings.sample;
  const sel=$('#weekSel');sel.innerHTML=S.weeks.map(w=>`<option value="${w.n}"${w.n==WK?' selected':''}>${esc(weekLabel(w))}${w.n===currentWeek()?' ← الحالي':''}</option>`).join('');
- const m=$('#main');try{m.innerHTML=V[name](arg);decorateVoice(m)}catch(e){console.error(e);m.innerHTML=`<div class="card">حدث خطأ في عرض القسم: ${esc(e.message)}</div>`}
+ const m=$('#main');try{m.innerHTML=V[name](arg);decorateVoice(m);kpiIcons(m)}catch(e){console.error(e);m.innerHTML=`<div class="card">حدث خطأ في عرض القسم: ${esc(e.message)}</div>`}
  document.title=(name==='home'?'':($('h2',m)?.textContent.replace(/^\S+\s/,'')+' — '))+'لوحة التحكم لعضو الفريق التنفيذي';
  if(name==='data')refreshSnaps()}
 window.addEventListener('hashchange',()=>{$('#nav').classList.remove('open');render();window.scrollTo(0,0)});

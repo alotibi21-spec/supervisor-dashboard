@@ -157,3 +157,53 @@ dialog h3{margin-top:0}
 .newbox{border:1px dashed var(--gold);border-radius:12px;padding:10px;margin:6px 0;background:#fffbeb}[data-theme=dark] .newbox{background:#1f1a0b}.hintbox{font-weight:700;color:var(--warn);margin-bottom:6px}
 .newbox input,.newbox select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);width:100%}
 @media print{.micbtn{display:none}}
+/* ===== v1.2.2 premium gradients (RTL: strong on the right → fading left) ===== */
+:root{--royal:#1e4fa3;--teal:#0f7c8c;--g-navy:linear-gradient(to left,#0b1f3a 0%,#163a6e 38%,#1e4fa3 70%,#0f7c8c 100%);--g-gold:linear-gradient(to left,#b8901a 0%,#d4af37 45%,#ecd27a 100%);--g-red:linear-gradient(to left,#991b1b,#c62828 60%,#e0573f);--g-ok:linear-gradient(to left,#166534,#16a34a 60%,#34d399);--glass:rgba(255,255,255,.72);--glow:0 8px 24px -10px rgba(30,79,163,.35),0 2px 6px rgba(15,39,71,.08)}
+[data-theme=dark]{--glass:rgba(18,27,45,.72);--glow:0 8px 26px -10px rgba(15,124,140,.45),0 2px 6px rgba(0,0,0,.4)}
+body{background:radial-gradient(1200px 500px at 100% 0,rgba(30,79,163,.08),transparent 60%),radial-gradient(900px 400px at 0 100%,rgba(201,162,39,.07),transparent 60%),var(--bg);background-attachment:fixed}
+.top{background:var(--g-navy);border-bottom:0;box-shadow:0 4px 18px -6px rgba(11,31,58,.55);position:sticky;overflow:hidden}
+.top::after{content:'';position:absolute;inset:auto 0 0 0;height:3px;background:var(--g-gold)}
+.top::before,.btn.gold::before,.btn:not(.ghost):not(.gold):not(.red)::before{content:'';position:absolute;top:0;bottom:0;width:40%;right:-45%;background:linear-gradient(to left,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);pointer-events:none}
+.top::before{animation:sheen 7s ease-in-out infinite}
+.top>*{position:relative;z-index:1}
+.hero{background:var(--g-navy);border-bottom:0;box-shadow:var(--glow);position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:auto 0 0 0;height:4px;background:var(--g-gold)}
+.btn{position:relative;overflow:hidden;background:linear-gradient(to left,#0f2747,#1e4fa3);box-shadow:0 4px 12px -6px rgba(30,79,163,.7);transition:transform .15s ease,box-shadow .2s ease,filter .2s}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 8px 18px -8px rgba(30,79,163,.8)}.btn:active{transform:translateY(0) scale(.98)}
+.btn.gold{background:var(--g-gold);color:#0b1f3a;box-shadow:0 4px 14px -6px rgba(201,162,39,.8)}
+.btn.red{background:var(--g-red)}.btn.ghost{background:var(--glass);box-shadow:none}
+.btn.gold:hover::before,.btn:not(.ghost):not(.gold):not(.red):hover::before{animation:sheen 1s ease}
+.btn.gold::before{animation:sheen 5s ease-in-out 1.5s infinite}
+@keyframes sheen{0%{right:-45%}55%,100%{right:115%}}
+.card,.kpi{background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid transparent;background-clip:padding-box;box-shadow:var(--glow);position:relative}
+.card::before,.kpi::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(to left,rgba(30,79,163,.45),rgba(15,124,140,.25) 50%,rgba(201,162,39,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.kpi{border-top:0;transition:transform .2s ease,box-shadow .2s ease;overflow:hidden;padding-top:14px}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--g-gold)}
+.kpi.navy::after{background:var(--g-navy)}.kpi.red::after{background:var(--g-red)}.kpi.ok::after{background:var(--g-ok)}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 14px 30px -12px rgba(30,79,163,.5)}
+.kpi .ic{float:left;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.15rem;background:var(--g-navy);box-shadow:0 6px 14px -6px rgba(30,79,163,.8),inset 0 1px 0 rgba(255,255,255,.25)}
+.kpi.red .ic{background:var(--g-red)}.kpi.ok .ic{background:var(--g-ok)}.kpi:not(.navy):not(.red):not(.ok) .ic{background:var(--g-gold)}
+.kpi .v{background:linear-gradient(to left,#0f2747,#1e4fa3 60%,#0f7c8c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kpi.red .v{background:var(--g-red);-webkit-background-clip:text;background-clip:text}
+[data-theme=dark] .kpi .v{background:var(--g-gold);-webkit-background-clip:text;background-clip:text}
+.side{background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.side a{transition:background .2s,color .2s,transform .15s}.side a:hover{background:linear-gradient(to left,rgba(30,79,163,.12),transparent)}
+.side a.on{background:var(--g-navy);box-shadow:inset -4px 0 0 var(--gold),0 6px 14px -8px rgba(30,79,163,.8)}
+.tabs button{transition:all .2s}.tabs button.on{background:var(--g-navy);border-color:transparent;box-shadow:0 4px 12px -6px rgba(30,79,163,.8)}
+.card>h3:first-child{position:relative;padding-right:12px}
+.card>h3:first-child::before{content:'';position:absolute;right:0;top:.2em;bottom:.2em;width:4px;border-radius:4px;background:linear-gradient(to bottom,#d4af37,#1e4fa3)}
+dialog{box-shadow:0 30px 80px -20px rgba(11,31,58,.6)}
+dialog form>h3:first-child{margin:-16px -16px 14px;padding:14px 16px;background:var(--g-navy);color:#fff;position:sticky;top:-16px;z-index:2;border-bottom:3px solid var(--gold)}
+.bar{background:rgba(148,163,184,.25)}.bar i{background:var(--g-gold);box-shadow:0 0 8px rgba(201,162,39,.45)}
+.rep .sec{background:var(--g-navy)}
+.achdoc h4{background:linear-gradient(to left,#0b1f3a,#1e4fa3 70%,#0f7c8c)}
+@media (max-width:760px){.card,.kpi,.side{-webkit-backdrop-filter:none;backdrop-filter:none}.card,.kpi{background:var(--card)}.kpi .ic{width:32px;height:32px;font-size:1rem;border-radius:10px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.kpi:hover,.btn:hover{transform:none}}
+@media print{
+ .top::before,.btn::before{display:none}
+ .card,.kpi{background:#fff!important;box-shadow:none!important;backdrop-filter:none!important;border:1px solid #ddd!important}
+ .card::before,.kpi::before{display:none}.kpi .ic{display:none}
+ .kpi .v{background:none!important;color:#0f2747!important}
+ .rep .sec,.achdoc h4,.kpi::after,.bar i,.hero,.card>h3:first-child::before{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ body{background:#fff!important}
+}
