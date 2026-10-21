@@ -219,3 +219,11 @@ dialog form>h3:first-child{margin:-16px -16px 14px;padding:14px 16px;background:
  .side,.side *{touch-action:pan-y}
 }
 #toast{z-index:1100;background:var(--g-navy)}
+/* v1.2.4 quick add + voice numbers */
+.eadd{border:1px dashed var(--gold)}
+.eaform{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto;gap:10px;align-items:end}
+.eaform .fld{display:flex;flex-direction:column;gap:4px;min-width:0}.eaform input,.eaform select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.vbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.micbtn.rowmic{width:34px;height:34px;min-height:0;padding:0;vertical-align:middle;font-size:.95rem}
+@media (max-width:760px){.eaform{grid-template-columns:minmax(0,1fr)}.eaform .btn{width:100%;justify-content:center}.micbtn.rowmic{width:40px;height:40px}}
+@media print{.rowmic,.vbar,.eadd{display:none!important}}
