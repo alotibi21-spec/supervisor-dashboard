@@ -1,5 +1,5 @@
 /*! لوحة التحكم لعضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي. جميع الحقوق محفوظة — All Rights Reserved. انظر ملف LICENSE. */
-const V='sup-1.2.2',F=['./','index.html','styles.css','app.js','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','fonts/Tajawal-400.ttf','fonts/Tajawal-700.ttf','fonts/Tajawal-800.ttf','vendor/xlsx.full.min.js','vendor/html2canvas.min.js','vendor/jspdf.umd.min.js'];
+const V='sup-1.2.3',F=['./','index.html','styles.css','app.js','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','fonts/Tajawal-400.ttf','fonts/Tajawal-700.ttf','fonts/Tajawal-800.ttf','vendor/xlsx.full.min.js','vendor/html2canvas.min.js','vendor/jspdf.umd.min.js'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>Promise.all(F.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(r.ok)return c.put(u,r)}).catch(()=>{})))))});
 self.addEventListener('message',e=>{if(e.data==='skip')self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});

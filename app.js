@@ -1,6 +1,6 @@
 /*! لوحة التحكم لعضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي (Abdullah Khalid Alotaibi). جميع الحقوق محفوظة — All Rights Reserved. انظر ملف LICENSE. */
 'use strict';
-const APPV='1.2.2';
+const APPV='1.2.3';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
@@ -475,7 +475,7 @@ function render(){const h=(location.hash||'#home').slice(1),[v,arg]=h.split('/')
  const m=$('#main');try{m.innerHTML=V[name](arg);decorateVoice(m);kpiIcons(m)}catch(e){console.error(e);m.innerHTML=`<div class="card">حدث خطأ في عرض القسم: ${esc(e.message)}</div>`}
  document.title=(name==='home'?'':($('h2',m)?.textContent.replace(/^\S+\s/,'')+' — '))+'لوحة التحكم لعضو الفريق التنفيذي';
  if(name==='data')refreshSnaps()}
-window.addEventListener('hashchange',()=>{$('#nav').classList.remove('open');render();window.scrollTo(0,0)});
+window.addEventListener('hashchange',()=>{setNav(false);render();window.scrollTo(0,0)});
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
  const A={print:()=>window.print(),addSchool:()=>editSchool(null),editSchool:()=>editSchool(b.dataset.id),
   delSchool:async()=>{$('#dlg').close();if(!await confirmDlg('حذف المدرسة وجميع سجلات دخولها وغيابها وزياراتها؟'))return;const id=b.dataset.id;S.schools=S.schools.filter(s=>s.id!==id);for(const o of[S.logins,S.absences])for(const k in o)if(k.endsWith('|'+id))delete o[k];S.visits=S.visits.filter(v=>v.schoolId!==id);save();location.hash='#schools';render()},
@@ -528,8 +528,10 @@ document.addEventListener('change',async e=>{const t=e.target;
 document.addEventListener('input',e=>{if(e.target.id==='schQ'){schF.q=e.target.value;clearTimeout(e.target._t);e.target._t=setTimeout(()=>{render();const i=$('#schQ');i.focus();i.setSelectionRange(i.value.length,i.value.length)},300)}});
 $('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){location.hash='#search/'+encodeURIComponent(e.target.value.trim())}});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#q').focus()}});
-$('#menuBtn').addEventListener('click',()=>{const n=$('#nav');n.classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',n.classList.contains('open'))});
-$('#main').addEventListener('click',()=>$('#nav').classList.remove('open'));$('#navClose').addEventListener('click',()=>{$('#nav').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false')});
+const scrim=document.createElement('div');scrim.className='scrim';scrim.setAttribute('aria-hidden','true');document.body.appendChild(scrim);
+function setNav(o){const n=$('#nav');n.classList.toggle('open',o);scrim.classList.toggle('on',o);document.body.classList.toggle('navlock',o);$('#menuBtn').setAttribute('aria-expanded',String(o))}
+$('#menuBtn').addEventListener('click',()=>setNav(!$('#nav').classList.contains('open')));scrim.addEventListener('click',()=>setNav(false));$('#nav').addEventListener('click',e=>{if(e.target.closest('a'))setNav(false)});
+$('#main').addEventListener('click',()=>setNav(false));$('#navClose').addEventListener('click',()=>setNav(false));document.addEventListener('keydown',e=>{if(e.key==='Escape')setNav(false)});
 function applyTheme(){const t=S.settings.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;$('#themeBtn').textContent=t==='dark'?'☀️':'🌙'}
 $('#themeBtn').addEventListener('click',()=>{S.settings.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme();save()});
 function net(){$('#netInd').textContent=navigator.onLine?'':'⚡ دون اتصال'}addEventListener('online',net);addEventListener('offline',net);

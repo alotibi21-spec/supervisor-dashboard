@@ -207,3 +207,15 @@ dialog form>h3:first-child{margin:-16px -16px 14px;padding:14px 16px;background:
  .rep .sec,.achdoc h4,.kpi::after,.bar i,.hero,.card>h3:first-child::before{-webkit-print-color-adjust:exact;print-color-adjust:exact}
  body{background:#fff!important}
 }
+/* v1.2.3 mobile drawer: solid, top-most, own scroll + scrim */
+.scrim{display:none}
+@media (max-width:760px){
+ .side{background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;z-index:1000;height:100vh;height:100dvh;top:0;bottom:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;width:min(280px,84vw);right:calc(-1 * min(300px,90vw));box-shadow:-10px 0 30px rgba(11,31,58,.35);border-left:0;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(16px,env(safe-area-inset-bottom))}
+ .side::before{content:'';display:block;height:4px;margin:-12px -8px 10px;background:var(--g-gold)}
+ .side a{color:var(--text)}.side a.on{color:#fff}
+ .scrim{display:block;position:fixed;inset:0;z-index:999;background:rgba(5,12,26,.55);opacity:0;pointer-events:none;transition:opacity .25s}
+ .scrim.on{opacity:1;pointer-events:auto}
+ body.navlock{overflow:hidden;touch-action:none}
+ .side,.side *{touch-action:pan-y}
+}
+#toast{z-index:1100;background:var(--g-navy)}
