@@ -1,6 +1,6 @@
 /*! لوحة التحكم لعضو الفريق التنفيذي — © 2026 / 1448هـ عبدالله خالد العتيبي (Abdullah Khalid Alotaibi). جميع الحقوق محفوظة — All Rights Reserved. انظر ملف LICENSE. */
 'use strict';
-const APPV='1.4.0';
+const APPV='1.4.1';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
@@ -654,10 +654,15 @@ $('#themeBtn').addEventListener('click',()=>{S.settings.theme=document.documentE
 function net(){$('#netInd').textContent=navigator.onLine?'':'⚡ دون اتصال'}addEventListener('online',net);addEventListener('offline',net);
 /* ---------- PWA install ---------- */
 let deferredPrompt=null;const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
-addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#installBtn').hidden=false;if((location.hash||'').startsWith('#data'))render()});
-addEventListener('appinstalled',()=>{deferredPrompt=null;$('#installBtn').hidden=true;toast('✅ تم تثبيت التطبيق')});
-async function doInstall(){if(!deferredPrompt){location.hash='#data';return}deferredPrompt.prompt();await deferredPrompt.userChoice.catch(()=>{});deferredPrompt=null;$('#installBtn').hidden=true;render()}
-$('#installBtn').addEventListener('click',doInstall);
+const instB=$('#installBtn');if(isStandalone())instB.hidden=true;matchMedia('(display-mode: standalone)').addEventListener?.('change',e=>{if(e.matches)instB.hidden=true});
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!isStandalone())instB.hidden=false;if((location.hash||'').startsWith('#data'))render()});
+addEventListener('appinstalled',()=>{deferredPrompt=null;instB.hidden=true;toast('✅ تم تثبيت التطبيق')});
+function installHelp(){const d=$('#dlg'),f=$('#dlgForm');const ios=isIOS();
+ f.innerHTML=ios?`<h3>📲 تثبيت التطبيق على iPhone / iPad</h3><ol class="insthelp"><li>افتح اللوحة في متصفح <b>Safari</b>.</li><li>اضغط زر <b>المشاركة</b> <span aria-hidden="true">⬆️</span> أسفل الشاشة (أو أعلاها في iPad).</li><li>اختر <b>«إضافة إلى الشاشة الرئيسية»</b>.</li><li>اضغط <b>«إضافة»</b> لتظهر أيقونة اللوحة على الشاشة الرئيسية.</li></ol><p class="small muted">اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».</p><div class="dlg-acts"><button class="btn gold" value="cancel">حسنًا</button></div>`
+ :`<h3>📲 تثبيت التطبيق</h3><p>متصفحك الحالي لا يدعم التثبيت المباشر بضغطة زر. يمكنك التثبيت يدويًا:</p><ol class="insthelp"><li>في <b>Chrome</b>: افتح القائمة <b>⋮</b> ثم اختر <b>«تثبيت»</b> أو «تثبيت التطبيق».</li><li>في <b>Edge</b>: افتح القائمة <b>…</b> ثم «التطبيقات» ← «تثبيت هذا الموقع كتطبيق».</li><li>في <b>Android</b>: افتح قائمة Chrome <b>⋮</b> ثم «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».</li></ol><p class="small muted">للحصول على أفضل تجربة استخدم متصفح Chrome أو Edge أو Safari.</p><div class="dlg-acts"><button class="btn gold" value="cancel">حسنًا</button></div>`;
+ d.showModal()}
+async function doInstall(){if(!deferredPrompt){installHelp();return}deferredPrompt.prompt();const c=await deferredPrompt.userChoice.catch(()=>null);deferredPrompt=null;if(c&&c.outcome==='accepted')instB.hidden=true;render()}
+instB.addEventListener('click',doInstall);
 /* ---------- init ---------- */
 (async function(){$('#ver').textContent=APPV;try{await DB.open();const st=await DB.get('state');if(st){S=Object.assign(blank(),st);S.settings=Object.assign(blank().settings,st.settings)}}catch(e){toast('تعذّر فتح قاعدة البيانات المحلية: '+e.message)}
  const th=toH(new Date());$('#todayDate').textContent=`${AR(th.d)} ${HMONTHS[th.m]} ${AR(th.y)}هـ`;WK=currentWeek();applyTheme();net();thursdayCheck();render();

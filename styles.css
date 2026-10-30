@@ -271,3 +271,12 @@ details.xf .fld{display:flex;flex-direction:column;gap:4px;min-width:0}details.x
 .n8drec{margin-top:4px}.n8drec th{width:90px}.n8drec td{height:52px;vertical-align:top;white-space:pre-wrap;background:#fff!important}
 .n8dsig{margin-top:4px}.n8dsig th{background:#f3ead0!important;color:#0f2747!important;width:150px}.n8dsig td{height:22px;background:#fff!important}
 .n8stamp{text-align:center;font-weight:700;margin-top:3px;font-size:12.5px}
+
+/* v1.4.1 install button */
+.instbtn{display:inline-flex;align-items:center;gap:6px;flex:none;height:38px;padding:0 14px;border-radius:999px;cursor:pointer;font:inherit;font-weight:800;font-size:.85rem;color:#0b1f3a;background:linear-gradient(135deg,#f3d98b,#c9a227 60%,#b08a17);border:1px solid #ffffff55;box-shadow:0 2px 10px -2px rgba(201,162,39,.6),inset 0 1px 0 #ffffff80;white-space:nowrap;backdrop-filter:blur(6px)}
+.instbtn:hover{filter:brightness(1.07)}.instbtn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.instbtn[hidden]{display:none!important}
+.insthelp{line-height:2;padding-inline-start:22px}
+@media (max-width:760px){.instbtn{height:36px;padding:0 10px;font-size:.78rem}}
+@media (max-width:380px){.instbtn .it{display:none}.instbtn{width:38px;padding:0;justify-content:center}}
+@media print{.instbtn{display:none!important}}
