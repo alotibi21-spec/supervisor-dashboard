@@ -280,3 +280,4 @@ details.xf .fld{display:flex;flex-direction:column;gap:4px;min-width:0}details.x
 @media (max-width:760px){.instbtn{height:36px;padding:0 10px;font-size:.78rem}}
 @media (max-width:380px){.instbtn .it{display:none}.instbtn{width:38px;padding:0;justify-content:center}}
 @media print{.instbtn{display:none!important}}
+@media (max-width:520px){.instbtn{padding:0 10px;gap:4px}.instbtn .it{font-size:0}.instbtn .it::after{content:'تثبيت';font-size:.78rem}}
